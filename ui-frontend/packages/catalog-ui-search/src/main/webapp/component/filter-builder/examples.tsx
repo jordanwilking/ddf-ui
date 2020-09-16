@@ -5,6 +5,7 @@
  * json at the moment.  Need to add whatever keyword looks like.
  */
 
+// @ts-ignore ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'examples'.
 const examples = [
   {
     type: 'AND',

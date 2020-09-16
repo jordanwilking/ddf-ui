@@ -13,7 +13,8 @@
  *
  **/
 import * as React from 'react'
-// @ts-ignore
+
+// @ts-expect-error ts-migrate(6133) FIXME: 'EnumInput' is declared but its value is never rea... Remove this comment to see the full error message
 import EnumInput from '../inputs/enum-input'
 import { isDirectionalSort } from './sort-selection-helpers'
 import { SortItemType, Option } from './sort-selections'
@@ -51,6 +52,7 @@ const SortItem = ({
             options={attributeOptions}
             getOptionLabel={option => option.label}
             getOptionSelected={(option, value) => option.value === value.value}
+            // @ts-expect-error ts-migrate(6133) FIXME: 'e' is declared but its value is never read.
             onChange={(e, newValue) => {
               const newProperty = newValue.value
               updateAttribute(newProperty)
@@ -87,6 +89,7 @@ const SortItem = ({
               getOptionSelected={(option, value) =>
                 option.value === value.value
               }
+              // @ts-expect-error ts-migrate(6133) FIXME: 'e' is declared but its value is never read.
               onChange={(e, newValue) => {
                 const newProperty = newValue.value
                 updateDirection(newProperty)

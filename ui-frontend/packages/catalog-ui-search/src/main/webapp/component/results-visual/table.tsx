@@ -107,6 +107,7 @@ const TableVisual = ({
     )
     setTimeout(() => {
       lightboxInstance.showContent(
+        // @ts-expect-error ts-migrate(2741) FIXME: Property 'filteredAttributes' is missing in type '... Remove this comment to see the full error message
         <ExtensionPoints.tableExport selectionInterface={selectionInterface} />
       )
     }, 250)
@@ -208,6 +209,7 @@ const TableVisual = ({
         </Button>
       </Grid>
       <Grid item style={{ overflow: 'hidden', background: 'inherit' }}>
+        {/* @ts-expect-error ts-migrate(2322) FIXME: Type 'HTMLDivElement' is missing the following pro... Remove this comment to see the full error message */}
         <HeaderDiv style={{ width: 'auto', overflow: 'auto' }} ref={headerRef}>
           <Header visibleHeaders={visibleHeaders} lazyResults={lazyResults} />
         </HeaderDiv>
@@ -225,6 +227,7 @@ const TableVisual = ({
           outerElementProps={{
             onScroll: e => {
               if (headerRef.current) {
+                // @ts-expect-error ts-migrate(2339) FIXME: Property 'scrollLeft' does not exist on type 'Even... Remove this comment to see the full error message
                 headerRef.current.scrollLeft = e.target.scrollLeft
               }
             },

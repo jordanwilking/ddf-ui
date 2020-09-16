@@ -179,6 +179,7 @@ const getIconClassName = ({ lazyResult }: { lazyResult: LazyQueryResult }) => {
 export const ResultItem = ({
   lazyResult,
   measure,
+  // @ts-expect-error ts-migrate(6133) FIXME: 'index' is declared but its value is never read.
   index,
 }: ResultItemFullProps) => {
   // console.log(`rendered: ${index}`)

@@ -141,7 +141,7 @@ const ThumbnailInput = ({
             const reader = new FileReader()
             reader.onload = function(event) {
               try {
-                //@ts-ignore
+                // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
                 onChange(event.target.result)
               } catch (err) {
                 console.log('something wrong with file type')
@@ -150,7 +150,8 @@ const ThumbnailInput = ({
             reader.onerror = () => {
               console.log('error')
             }
-            //@ts-ignore
+
+            // @ts-expect-error ts-migrate(2531) FIXME: Object is possibly 'null'.
             reader.readAsDataURL(e.target.files[0])
           }}
         />
@@ -806,7 +807,7 @@ const Summary = ({ selectionInterface }: Props) => {
   const selection = Object.values(selectedResults)[0] as
     | LazyQueryResult
     | undefined
-  const [canWrite, setCanWrite] = React.useState(
+  const [canWrite] = React.useState(
     selection &&
       !selection.isRemote() &&
       (user.canWrite(selection.getBackbone()) as boolean)
@@ -965,7 +966,7 @@ const Summary = ({ selectionInterface }: Props) => {
               }}
             >
               <Droppable droppableId="test" isDropDisabled={mode !== 'adjust'}>
-                {(droppableProvided, snapshot) => {
+                {droppableProvided => {
                   return (
                     <div
                       {...droppableProvided.droppableProps}
@@ -979,8 +980,9 @@ const Summary = ({ selectionInterface }: Props) => {
                             key={attr}
                             isDragDisabled={mode !== 'adjust'}
                           >
-                            {(provided, snapshot) => {
+                            {provided => {
                               return (
+                                // @ts-expect-error ts-migrate(2322) FIXME: Type 'DragEvent<HTMLDivElement>' is missing the fo... Remove this comment to see the full error message
                                 <div
                                   ref={provided.innerRef}
                                   {...provided.draggableProps}

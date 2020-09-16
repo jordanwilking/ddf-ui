@@ -192,8 +192,10 @@ export const HomePage = () => {
     )
     ;(urlBasedQuery as any).startSearchFromFirstPage()
   }
+  // @ts-expect-error ts-migrate(6133) FIXME: 'isSaved' is declared but its value is never read.
   const [isSaved, setIsSaved] = React.useState(false)
 
+  // @ts-expect-error ts-migrate(6133) FIXME: 'setQueryModel' is declared but its value is never... Remove this comment to see the full error message
   const [queryModel, setQueryModel] = React.useState(
     urlBasedQuery || new Query.Model()
   )

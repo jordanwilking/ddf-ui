@@ -60,7 +60,7 @@ const Root = styled.div<Props>`
     transform: scale(1);
   }
 
-  ${props => {
+  ${(props: any) => {
     if (props.hasUnseenNotifications) {
       return css`
         .item-alerts {
@@ -75,12 +75,14 @@ const Root = styled.div<Props>`
         }
       `
     }
+    return
   }};
 `
 
 export default function NavigationRight(props: Props) {
   return (
     <Root {...props}>
+      {/* @ts-expect-error navigationRight does not exist on type ExtentionPointsType */}
       {ExtensionPoints.navigationRight.map((Component: any, i: number) => (
         <Component key={i} />
       ))}

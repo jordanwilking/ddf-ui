@@ -14,6 +14,7 @@ type QueryEditorProps = {
   query: any
 }
 
+// @ts-expect-error ts-migrate(6133) FIXME: 'filter' is declared but its value is never read.
 const Field = ({ filter }: { filter: TruncatingFilterType }) => {
   return (
     <div>
@@ -24,6 +25,7 @@ const Field = ({ filter }: { filter: TruncatingFilterType }) => {
   )
 }
 
+// @ts-expect-error ts-migrate(6133) FIXME: 'Examples' is declared but its value is never read... Remove this comment to see the full error message
 const Examples = [
   {
     cql: '(X AND Y AND Z) OR A',

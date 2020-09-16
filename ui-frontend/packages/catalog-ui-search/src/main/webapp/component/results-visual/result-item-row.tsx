@@ -61,13 +61,14 @@ const RowComponent = ({
   lazyResult,
   visibleHeaders,
   measure,
+  // @ts-expect-error ts-migrate(6133) FIXME: 'index' is declared but its value is never read.
   index,
 }: ResultItemFullProps) => {
   const theme = useTheme()
   const isSelected = useSelectionOfLazyResult({ lazyResult })
   // console.log(`rendered: ${index}`)
 
-  const visibleProperties: Property[] = visibleHeaders.map(property => {
+  const visibleProperties: Property[] = visibleHeaders.map((property: any) => {
     let value = lazyResult.plain.metacard.properties[property.id]
     if (value === undefined) {
       value = ''
@@ -80,7 +81,7 @@ const RowComponent = ({
       switch (metacardDefinitions.metacardTypes[property.id].type) {
         case 'DATE':
           value = value.map(
-            val =>
+            (val: any) =>
               val !== undefined && val !== ''
                 ? user.getUserReadableDateTime(val)
                 : ''
@@ -135,6 +136,7 @@ const RowComponent = ({
               : theme.palette.background.paper,
           }}
         >
+          {/* @ts-expect-error ts-migrate(6133) FIXME: 'index' is declared but its value is never read. */}
           {visibleProperties.map((property, index) => {
             const alias = HandleBarsHelpers.getAlias(property.property)
 

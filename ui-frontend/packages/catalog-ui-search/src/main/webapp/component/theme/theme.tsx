@@ -2,9 +2,11 @@ import * as React from 'react'
 import {
   createMuiTheme,
   MuiThemeProvider as ThemeProvider,
+  // @ts-expect-error ts-migrate(6133) FIXME: 'darken' is declared but its value is never read.
   darken,
   Theme as ThemeInterface,
   createStyles,
+  // @ts-expect-error ts-migrate(6133) FIXME: 'lighten' is declared but its value is never read.
   lighten,
   StylesProvider,
 } from '@material-ui/core/styles'

@@ -12,4 +12,5 @@
  * <http://www.gnu.org/licenses/lgpl.html>.
  *
  **/
+// @ts-ignore ts-migrate(2691) FIXME: An import path cannot end with a '.tsx' extension.... Remove this comment to see the full error message
 export { default } from './distance-info.tsx'

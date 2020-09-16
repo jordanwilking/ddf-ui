@@ -41,6 +41,7 @@ class Portal extends React.Component<{}, {}> {
   componentWillUnmount() {
     this.wrapper.remove()
   }
+  // @ts-ignore ts-migrate(2742) FIXME: The inferred type of 'render' cannot be named with... Remove this comment to see the full error message
   render() {
     return ReactDOM.createPortal(this.props.children, this.wrapper)
   }

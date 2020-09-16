@@ -25,5 +25,6 @@ declare module 'styled-components' {
     strings: TemplateStringsArray,
     ...interpolations: FlattenInterpolation<ThemeProps<ThemeInterface>>[]
   ): Keyframes
+  // @ts-ignore ts-migrate(2451) FIXME: Cannot redeclare block-scoped variable 'ThemeConte... Remove this comment to see the full error message
   export const ThemeContext: React.Context<DefaultTheme>
 }

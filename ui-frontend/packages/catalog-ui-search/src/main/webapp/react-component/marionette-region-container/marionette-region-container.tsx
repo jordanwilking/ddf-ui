@@ -14,6 +14,7 @@
  **/
 import * as React from 'react'
 import * as Marionette from 'backbone.marionette'
+// @ts-expect-error ts-migrate(6133) FIXME: 'styled' is declared but its value is never read.
 import styled from 'styled-components'
 const intervalToCheck = 20
 import { hot } from 'react-hot-loader'

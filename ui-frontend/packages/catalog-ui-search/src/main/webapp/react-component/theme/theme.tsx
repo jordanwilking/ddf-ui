@@ -176,7 +176,7 @@ type UserTheme = {
 function updateTheme(userTheme: UserTheme) {
   let relevantColorTheme = themes[userTheme.theme]
   if (userTheme.theme === 'custom') {
-    // @ts-ignore
+    // @ts-expect-error ts-migrate(2769) FIXME: Property 'theme' is missing in type '{}' but requi... Remove this comment to see the full error message
     relevantColorTheme = Object.keys(relevantColorTheme).reduce(
       (newMap: UserTheme, key) => {
         newMap[key] =

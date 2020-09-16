@@ -38,7 +38,7 @@ const Root = styled.div`
     text-align: center;
   }
 
-  ${props => {
+  ${(props: any) => {
     if (props.theme.screenBelow(props.theme.smallScreenSize)) {
       return `
         .metacardHistory-body {
@@ -52,6 +52,7 @@ const Root = styled.div`
         }
     `
     }
+    return
   }};
 `
 

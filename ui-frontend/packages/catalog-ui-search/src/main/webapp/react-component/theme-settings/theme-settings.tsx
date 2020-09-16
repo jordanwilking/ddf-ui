@@ -164,7 +164,7 @@ class ThemeSettings extends React.Component<
     customColors: any[]
   }
 > {
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props)
     const themeScale = ThemeUtils.getZoomScale(getFontSize())
     this.state = {
@@ -271,7 +271,7 @@ class ThemeCustomComponent extends React.Component<
     customColorArray: any[]
   }
 > {
-  constructor(props: any) {
+  constructor(props: {}) {
     super(props)
     this.state = {
       customColorArray: getCustomColors(),

@@ -15,7 +15,9 @@
 
 import * as React from 'react'
 const Marionette = require('marionette')
+// @ts-expect-error ts-migrate(6133) FIXME: 'Query' is declared but its value is never read.
 const Query = require('../../js/model/Query.js')
+// @ts-expect-error ts-migrate(6133) FIXME: 'user' is declared but its value is never read.
 const user = require('../singletons/user-instance.js')
 import Grid from '@material-ui/core/Grid'
 import QueryBasic from '../../component/query-basic/query-basic.view'

@@ -17,6 +17,7 @@ import * as React from 'react'
 
 import FilterComparator from './filter-comparator'
 import FilterInput from './filter-input'
+// @ts-expect-error ts-migrate(6133) FIXME: 'getAttributeType' is declared but its value is ne... Remove this comment to see the full error message
 import { getAttributeType, getFilteredAttributeList } from './filterHelper'
 import Grid from '@material-ui/core/Grid'
 import Autocomplete from '@material-ui/lab/Autocomplete'
@@ -45,6 +46,7 @@ const Filter = ({ filter, setFilter }: Props) => {
           options={attributeList}
           getOptionLabel={option => option.label}
           getOptionSelected={(option, value) => option.value === value.value}
+          // @ts-expect-error ts-migrate(6133) FIXME: 'e' is declared but its value is never read.
           onChange={(e, newValue) => {
             const newProperty = newValue.value as FilterClass['property']
             setFilter({

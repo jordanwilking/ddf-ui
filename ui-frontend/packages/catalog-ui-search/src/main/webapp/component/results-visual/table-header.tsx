@@ -19,6 +19,7 @@ import { hot } from 'react-hot-loader'
 import { useBackbone } from '../selection-checkbox/useBackbone.hook'
 import { LazyQueryResults } from '../../js/model/LazyQueryResult/LazyQueryResults'
 const _ = require('underscore')
+// @ts-expect-error ts-migrate(6133) FIXME: '$' is declared but its value is never read.
 const $ = require('jquery')
 const user = require('../singletons/user-instance.js')
 require('jquery-ui/ui/widgets/resizable')
@@ -109,9 +110,13 @@ const getSortDirectionClass = (attribute: string) => {
   }
 }
 
+// @ts-expect-error ts-migrate(6133) FIXME: 'lazyResults' is declared but its value is never r... Remove this comment to see the full error message
 export const Header = ({ visibleHeaders, lazyResults }: HeaderProps) => {
+  // @ts-expect-error ts-migrate(6133) FIXME: 'forceRender' is declared but its value is never r... Remove this comment to see the full error message
   const [forceRender, setForceRender] = React.useState(Math.random())
+  // @ts-expect-error ts-migrate(6133) FIXME: 'listenTo' is declared but its value is never read... Remove this comment to see the full error message
   const { listenTo } = useBackbone()
+  // @ts-expect-error ts-migrate(6133) FIXME: 'theme' is declared but its value is never read.
   const theme = useTheme()
   const handleSortClick = _.debounce(updateSort, 500, true)
 
