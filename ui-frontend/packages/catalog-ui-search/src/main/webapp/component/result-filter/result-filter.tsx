@@ -25,7 +25,10 @@ import Grid from '@material-ui/core/Grid'
 const user = require('../singletons/user-instance.js')
 
 const getResultFilter = () => {
-  return user.get('user').get('preferences').get('resultFilter')
+  return user
+    .get('user')
+    .get('preferences')
+    .get('resultFilter')
 }
 
 const getBaseFilter = () => {
@@ -55,13 +58,25 @@ const getBaseFilter = () => {
 }
 
 const removeFilter = () => {
-  user.get('user').get('preferences').set('resultFilter', undefined)
-  user.get('user').get('preferences').savePreferences()
+  user
+    .get('user')
+    .get('preferences')
+    .set('resultFilter', undefined)
+  user
+    .get('user')
+    .get('preferences')
+    .savePreferences()
 }
 
 const saveFilter = ({ filter }: any) => {
-  user.get('user').get('preferences').set('resultFilter', filter)
-  user.get('user').get('preferences').savePreferences()
+  user
+    .get('user')
+    .get('preferences')
+    .set('resultFilter', filter)
+  user
+    .get('user')
+    .get('preferences')
+    .savePreferences()
 }
 
 const ResultFilter = ({ closeDropdown }: { closeDropdown: () => void }) => {

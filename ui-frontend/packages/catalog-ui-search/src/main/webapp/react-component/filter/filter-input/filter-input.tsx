@@ -128,9 +128,7 @@ const FilterInput = ({ filter, setFilter }: Props) => {
         }}
         disableClearable
         value={textValue}
-        renderInput={(params) => (
-          <MuiTextField {...params} variant="outlined" />
-        )}
+        renderInput={params => <MuiTextField {...params} variant="outlined" />}
       />
     )
   }

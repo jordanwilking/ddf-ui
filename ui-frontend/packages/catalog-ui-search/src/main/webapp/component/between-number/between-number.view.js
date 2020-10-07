@@ -86,7 +86,10 @@ module.exports = Marionette.LayoutView.extend({
     }
   },
   onAttach() {
-    const width = this.$el.find('.label').last().outerWidth()
+    const width = this.$el
+      .find('.label')
+      .last()
+      .outerWidth()
     this.$el
       .find('.range-input, .param')
       .css('width', `calc(50% - ${width / 2}px)`)

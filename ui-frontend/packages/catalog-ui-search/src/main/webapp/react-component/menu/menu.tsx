@@ -81,9 +81,9 @@ const ItemRoot = styled.div<{
       : ''}
 ${({ selected }) => (selected ? 'font-weight: bold;' : '')}
 ${({ selected, disabled }) => (selected && !disabled ? after : '')}
-background: ${(props) =>
-    props.active && !props.disabled ? background(props) : 'inherit'};
-  color: ${(props) => (props.disabled ? 'lightgrey' : foreground)};
+background: ${props =>
+  props.active && !props.disabled ? background(props) : 'inherit'};
+  color: ${props => (props.disabled ? 'lightgrey' : foreground)};
 `
 
 const DocumentListener = (props: any) => {

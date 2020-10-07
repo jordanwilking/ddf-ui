@@ -59,11 +59,9 @@ describe('Common', () => {
       sandbox.restore()
     })
     it('LineString wraps coordinates', () => {
-      const coordinates = [
-        [210, 50],
-        [0, 0],
-        [-240, -15],
-      ].map(olUtils.lonLatToMapCoordinate)
+      const coordinates = [[210, 50], [0, 0], [-240, -15]].map(
+        olUtils.lonLatToMapCoordinate
+      )
       const line = new MockGeometry({
         type: 'LineString',
         coordinates,
@@ -81,12 +79,9 @@ describe('Common', () => {
       expect(results.length).to.equal(3)
     })
     it('Polygon wraps coordinates', () => {
-      const coordinates = [
-        [210, 50],
-        [0, 0],
-        [-240, -15],
-        [210, 50],
-      ].map(olUtils.lonLatToMapCoordinate)
+      const coordinates = [[210, 50], [0, 0], [-240, -15], [210, 50]].map(
+        olUtils.lonLatToMapCoordinate
+      )
       const line = new MockGeometry({
         type: 'Polygon',
         coordinates: [coordinates],

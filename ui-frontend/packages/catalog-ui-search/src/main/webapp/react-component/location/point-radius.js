@@ -29,17 +29,20 @@ const {
 const DirectionInput = require('../../component/location-new/geo-components/direction.js')
 const { Direction } = require('../../component/location-new/utils/dms-utils.js')
 
-const PointRadiusLatLonDd = (props) => {
+const PointRadiusLatLonDd = props => {
   const { lat, lon, radius, radiusUnits, setState } = props
   const [ddError, setDdError] = useState(initialErrorStateWithDefault)
   const [radiusError, setRadiusError] = useState(initialErrorState)
 
-  useEffect(() => {
-    if (props.drawing) {
-      setDdError(initialErrorStateWithDefault)
-      setRadiusError(initialErrorState)
-    }
-  }, [props.lat, props.lon, props.radius])
+  useEffect(
+    () => {
+      if (props.drawing) {
+        setDdError(initialErrorStateWithDefault)
+        setRadiusError(initialErrorState)
+      }
+    },
+    [props.lat, props.lon, props.radius]
+  )
 
   function validateDd(key, value) {
     const { error, message, defaultValue } = validateGeo(key, value)
@@ -57,7 +60,7 @@ const PointRadiusLatLonDd = (props) => {
         type="number"
         label="Latitude"
         value={lat !== undefined ? String(lat) : lat}
-        onChange={(value) => validateDd('lat', value)}
+        onChange={value => validateDd('lat', value)}
         onBlur={() => setDdError(validateGeo('lat', lat))}
         addon="°"
       />
@@ -65,14 +68,14 @@ const PointRadiusLatLonDd = (props) => {
         type="number"
         label="Longitude"
         value={lon !== undefined ? String(lon) : lon}
-        onChange={(value) => validateDd('lon', value)}
+        onChange={value => validateDd('lon', value)}
         onBlur={() => setDdError(validateGeo('lon', lon))}
         addon="°"
       />
       <ErrorComponent errorState={ddError} />
       <Units
         value={radiusUnits}
-        onChange={(value) => {
+        onChange={value => {
           setState({ ['radiusUnits']: value })
           setRadiusError(validateGeo('radius', { value: radius, units: value }))
         }}
@@ -81,10 +84,10 @@ const PointRadiusLatLonDd = (props) => {
           type="number"
           label="Radius"
           value={String(radius)}
-          onChange={(value) => {
+          onChange={value => {
             setState({ ['radius']: value })
           }}
-          onBlur={(e) =>
+          onBlur={e =>
             setRadiusError(
               validateGeo('radius', {
                 value: e.target.value,
@@ -99,7 +102,7 @@ const PointRadiusLatLonDd = (props) => {
   )
 }
 
-const PointRadiusLatLonDms = (props) => {
+const PointRadiusLatLonDms = props => {
   const {
     dmsLat,
     dmsLon,
@@ -114,12 +117,15 @@ const PointRadiusLatLonDms = (props) => {
   const latitudeDirections = [Direction.North, Direction.South]
   const longitudeDirections = [Direction.East, Direction.West]
 
-  useEffect(() => {
-    if (props.drawing) {
-      setDmsError(initialErrorStateWithDefault)
-      setRadiusError(initialErrorState)
-    }
-  }, [props.dmsLat, props.dmsLon, props.radius])
+  useEffect(
+    () => {
+      if (props.drawing) {
+        setDmsError(initialErrorStateWithDefault)
+        setRadiusError(initialErrorState)
+      }
+    },
+    [props.dmsLat, props.dmsLon, props.radius]
+  )
 
   function validateDms(key, type, value) {
     const { error, message, defaultValue } = validateGeo(key, value)
@@ -151,7 +157,7 @@ const PointRadiusLatLonDms = (props) => {
         <DirectionInput
           options={latitudeDirections}
           value={dmsLatDirection}
-          onChange={(value) => setState({ ['dmsLatDirection']: value })}
+          onChange={value => setState({ ['dmsLatDirection']: value })}
         />
       </DmsLatitude>
       <DmsLongitude
@@ -162,13 +168,13 @@ const PointRadiusLatLonDms = (props) => {
         <DirectionInput
           options={longitudeDirections}
           value={dmsLonDirection}
-          onChange={(value) => setState({ ['dmsLonDirection']: value })}
+          onChange={value => setState({ ['dmsLonDirection']: value })}
         />
       </DmsLongitude>
       <ErrorComponent errorState={dmsError} />
       <Units
         value={radiusUnits}
-        onChange={(value) => {
+        onChange={value => {
           setState({ ['radiusUnits']: value })
           setRadiusError(validateGeo('radius', { value: radius, units: value }))
         }}
@@ -177,10 +183,10 @@ const PointRadiusLatLonDms = (props) => {
           label="Radius"
           type="number"
           value={String(radius)}
-          onChange={(value) => {
+          onChange={value => {
             setState({ ['radius']: value })
           }}
-          onBlur={(e) =>
+          onBlur={e =>
             setRadiusError(
               validateGeo('radius', {
                 value: e.target.value,
@@ -195,30 +201,33 @@ const PointRadiusLatLonDms = (props) => {
   )
 }
 
-const PointRadiusUsngMgrs = (props) => {
+const PointRadiusUsngMgrs = props => {
   const { usng, radius, radiusUnits, setState } = props
   const [usngError, setUsngError] = useState(initialErrorState)
   const [radiusError, setRadiusError] = useState(initialErrorState)
 
-  useEffect(() => {
-    if (props.drawing) {
-      setUsngError(initialErrorState)
-      setRadiusError(initialErrorState)
-    }
-  }, [props.usng, props.radius])
+  useEffect(
+    () => {
+      if (props.drawing) {
+        setUsngError(initialErrorState)
+        setRadiusError(initialErrorState)
+      }
+    },
+    [props.usng, props.radius]
+  )
 
   return (
     <div>
       <TextField
         label="USNG / MGRS"
         value={usng}
-        onChange={(value) => setState({ ['usng']: value })}
+        onChange={value => setState({ ['usng']: value })}
         onBlur={() => setUsngError(validateGeo('usng', usng))}
       />
       <ErrorComponent errorState={usngError} />
       <Units
         value={radiusUnits}
-        onChange={(value) => {
+        onChange={value => {
           setState({ ['radiusUnits']: value })
           setRadiusError(validateGeo('radius', { value: radius, units: value }))
         }}
@@ -227,7 +236,7 @@ const PointRadiusUsngMgrs = (props) => {
           label="Radius"
           type="number"
           value={String(radius)}
-          onChange={(value) => {
+          onChange={value => {
             setRadiusError(validateGeo('radius', value))
             setState({ ['radius']: value })
           }}
@@ -238,7 +247,7 @@ const PointRadiusUsngMgrs = (props) => {
   )
 }
 
-const PointRadiusUtmUps = (props) => {
+const PointRadiusUtmUps = props => {
   const {
     utmUpsEasting,
     utmUpsNorthing,
@@ -251,18 +260,21 @@ const PointRadiusUtmUps = (props) => {
   const [utmError, setUtmError] = useState(initialErrorState)
   const [radiusError, setRadiusError] = useState(initialErrorState)
 
-  useEffect(() => {
-    if (props.drawing) {
-      setUtmError(initialErrorState)
-      setRadiusError(initialErrorState)
-    }
-  }, [
-    props.utmUpsEasting,
-    props.utmUpsNorthing,
-    props.utmUpsZone,
-    props.utmUpsHemisphere,
-    props.radius,
-  ])
+  useEffect(
+    () => {
+      if (props.drawing) {
+        setUtmError(initialErrorState)
+        setRadiusError(initialErrorState)
+      }
+    },
+    [
+      props.utmUpsEasting,
+      props.utmUpsNorthing,
+      props.utmUpsZone,
+      props.utmUpsHemisphere,
+      props.radius,
+    ]
+  )
 
   return (
     <div>
@@ -271,7 +283,7 @@ const PointRadiusUtmUps = (props) => {
         value={
           utmUpsEasting !== undefined ? String(utmUpsEasting) : utmUpsEasting
         }
-        onChange={(value) => setState({ ['utmUpsEasting']: value })}
+        onChange={value => setState({ ['utmUpsEasting']: value })}
         onBlur={() =>
           setUtmError(
             validateGeo('easting', {
@@ -289,7 +301,7 @@ const PointRadiusUtmUps = (props) => {
         value={
           utmUpsNorthing !== undefined ? String(utmUpsNorthing) : utmUpsNorthing
         }
-        onChange={(value) => setState({ ['utmUpsNorthing']: value })}
+        onChange={value => setState({ ['utmUpsNorthing']: value })}
         onBlur={() =>
           setUtmError(
             validateGeo('northing', {
@@ -304,7 +316,7 @@ const PointRadiusUtmUps = (props) => {
       />
       <Zone
         value={utmUpsZone}
-        onChange={(value) => setState({ ['utmUpsZone']: value })}
+        onChange={value => setState({ ['utmUpsZone']: value })}
         onBlur={() =>
           setUtmError(
             validateGeo('zoneNumber', {
@@ -318,7 +330,7 @@ const PointRadiusUtmUps = (props) => {
       />
       <Hemisphere
         value={utmUpsHemisphere}
-        onChange={(value) => setState({ ['utmUpsHemisphere']: value })}
+        onChange={value => setState({ ['utmUpsHemisphere']: value })}
         onBlur={() =>
           setUtmError(
             validateGeo('hemisphere', {
@@ -333,7 +345,7 @@ const PointRadiusUtmUps = (props) => {
       <ErrorComponent errorState={utmError} />
       <Units
         value={radiusUnits}
-        onChange={(value) => {
+        onChange={value => {
           setState({ ['radiusUnits']: value })
           setRadiusError(validateGeo('radius', { value: radius, units: value }))
         }}
@@ -342,10 +354,10 @@ const PointRadiusUtmUps = (props) => {
           label="Radius"
           type="number"
           value={String(radius)}
-          onChange={(value) => {
+          onChange={value => {
             setState({ ['radius']: value })
           }}
-          onBlur={(e) =>
+          onBlur={e =>
             setRadiusError(
               validateGeo('radius', {
                 value: e.target.value,
@@ -360,7 +372,7 @@ const PointRadiusUtmUps = (props) => {
   )
 }
 
-const PointRadius = (props) => {
+const PointRadius = props => {
   const { setState, locationType } = props
 
   const inputs = {
@@ -376,7 +388,7 @@ const PointRadius = (props) => {
     <div>
       <Radio
         value={locationType}
-        onChange={(value) => setState({ ['locationType']: value })}
+        onChange={value => setState({ ['locationType']: value })}
       >
         <RadioItem value="dd">Lat / Lon (DD)</RadioItem>
         <RadioItem value="dms">Lat / Lon (DMS)</RadioItem>

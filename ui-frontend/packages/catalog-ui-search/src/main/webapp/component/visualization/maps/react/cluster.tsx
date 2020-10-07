@@ -14,43 +14,46 @@ const Cluster = ({ cluster, map }: Props) => {
   const geometries = React.useRef([] as any[])
   const isSelected = useSelectionOfLazyResults({ lazyResults: cluster.results })
 
-  React.useEffect(() => {
-    switch (isSelected) {
-      case 'selected':
-        map.updateCluster(geometries.current, {
-          color: cluster.results[0].getColor(),
-          isSelected,
-          count: cluster.results.length,
-          outline: 'black',
-          textFill: 'black',
-        })
-        break
-      case 'partially':
-        map.updateCluster(geometries.current, {
-          color: cluster.results[0].getColor(),
-          isSelected,
-          count: cluster.results.length,
-          outline: 'black',
-          textFill: 'white',
-        })
-        break
-      case 'unselected':
-        map.updateCluster(geometries.current, {
-          color: cluster.results[0].getColor(),
-          isSelected,
-          count: cluster.results.length,
-          outline: 'white',
-          textFill: 'white',
-        })
-        break
-    }
-  }, [isSelected])
+  React.useEffect(
+    () => {
+      switch (isSelected) {
+        case 'selected':
+          map.updateCluster(geometries.current, {
+            color: cluster.results[0].getColor(),
+            isSelected,
+            count: cluster.results.length,
+            outline: 'black',
+            textFill: 'black',
+          })
+          break
+        case 'partially':
+          map.updateCluster(geometries.current, {
+            color: cluster.results[0].getColor(),
+            isSelected,
+            count: cluster.results.length,
+            outline: 'black',
+            textFill: 'white',
+          })
+          break
+        case 'unselected':
+          map.updateCluster(geometries.current, {
+            color: cluster.results[0].getColor(),
+            isSelected,
+            count: cluster.results.length,
+            outline: 'white',
+            textFill: 'white',
+          })
+          break
+      }
+    },
+    [isSelected]
+  )
 
   const handleCluster = () => {
     const center = map.getCartographicCenterOfClusterInDegrees(cluster)
     geometries.current.push(
       map.addPointWithText(center, {
-        id: cluster.results.map((result) => result['metacard.id']),
+        id: cluster.results.map(result => result['metacard.id']),
         color: cluster.results[0].getColor(),
         isSelected,
       })
@@ -58,7 +61,7 @@ const Cluster = ({ cluster, map }: Props) => {
   }
 
   const addConvexHull = () => {
-    const points = cluster.results.map((result) => result.getPoints())
+    const points = cluster.results.map(result => result.getPoints())
     const data = _.flatten(points, true).map((coord: any) => ({
       longitude: coord[0],
       latitude: coord[1],
@@ -69,7 +72,7 @@ const Cluster = ({ cluster, map }: Props) => {
     ])
     convexHull.push(convexHull[0])
     const geometry = map.addLine(convexHull, {
-      id: cluster.results.map((result) => result['metacard.id']),
+      id: cluster.results.map(result => result['metacard.id']),
       color: cluster.results[0].getColor(),
     })
     map.hideGeometry(geometry)
@@ -80,7 +83,7 @@ const Cluster = ({ cluster, map }: Props) => {
     handleCluster()
     addConvexHull()
     return () => {
-      geometries.current.forEach((geometry) => {
+      geometries.current.forEach(geometry => {
         map.removeGeometry(geometry)
       })
     }

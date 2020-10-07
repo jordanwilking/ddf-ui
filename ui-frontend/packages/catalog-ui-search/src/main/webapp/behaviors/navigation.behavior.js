@@ -19,13 +19,17 @@ const Common = require('../js/Common.js')
 
 const $ = require('jquery')
 
-const expandComposedMenus = (menuItems) => {
+const expandComposedMenus = menuItems => {
   let expandedItems = []
   let expanded = false
-  menuItems.forEach((element) => {
+  menuItems.forEach(element => {
     if ($(element).hasClass('composed-menu')) {
       expanded = true
-      expandedItems = expandedItems.concat($(element).children().toArray())
+      expandedItems = expandedItems.concat(
+        $(element)
+          .children()
+          .toArray()
+      )
     } else {
       expandedItems.push(element)
     }
@@ -39,14 +43,16 @@ const expandComposedMenus = (menuItems) => {
 
 const handleArrowKey = (componentView, up) => {
   const menuItems = componentView.handleTabIndexes()
-  const currentActive = menuItems.filter((element) =>
+  const currentActive = menuItems.filter(element =>
     $(element).hasClass('is-active')
   )[0]
   const potentialNext =
     menuItems[menuItems.indexOf(currentActive) + (up === true ? -1 : 1)]
   if (potentialNext !== undefined) {
     $(currentActive).removeClass('is-active')
-    $(potentialNext).addClass('is-active').focus()
+    $(potentialNext)
+      .addClass('is-active')
+      .focus()
   } else if (menuItems.indexOf(currentActive) === 0) {
     $(currentActive).removeClass('is-active')
     $(menuItems[menuItems.length - 1])
@@ -54,7 +60,9 @@ const handleArrowKey = (componentView, up) => {
       .focus()
   } else {
     $(currentActive).removeClass('is-active')
-    $(menuItems[0]).addClass('is-active').focus()
+    $(menuItems[0])
+      .addClass('is-active')
+      .focus()
   }
 }
 
@@ -86,7 +94,7 @@ Behaviors.addBehavior(
     },
     getMenuItems() {
       return this.getAllPossibleMenuItems().filter(
-        (element) => element.offsetParent !== null
+        element => element.offsetParent !== null
       )
     },
     getAllPossibleMenuItems() {
@@ -97,23 +105,27 @@ Behaviors.addBehavior(
     focus() {
       const menuItems = this.handleTabIndexes()
       $(menuItems).removeClass('is-active')
-      $(menuItems[0]).addClass('is-active').focus()
+      $(menuItems[0])
+        .addClass('is-active')
+        .focus()
     },
     handleMouseEnter(e) {
       const menuItems = this.getMenuItems()
-      const currentActive = menuItems.filter((element) =>
+      const currentActive = menuItems.filter(element =>
         $(element).hasClass('is-active')
       )[0]
       const mouseOver = findEnclosingMenuItem(menuItems, e.target, this.el)
       if (mouseOver) {
         $(currentActive).removeClass('is-active')
-        $(mouseOver).addClass('is-active').focus()
+        $(mouseOver)
+          .addClass('is-active')
+          .focus()
       }
     },
     handleEnter() {
       let menuItems = this.getMenuItems()
       let $currentActive = $(
-        menuItems.filter((element) => $(element).hasClass('is-active'))[0]
+        menuItems.filter(element => $(element).hasClass('is-active'))[0]
       )
       $currentActive.click()
     },
@@ -125,7 +137,7 @@ Behaviors.addBehavior(
     },
     handleFocusIn(e) {
       const menuItems = this.getMenuItems()
-      const currentActive = menuItems.filter((element) =>
+      const currentActive = menuItems.filter(element =>
         $(element).hasClass('is-active')
       )[0]
       const mouseOver = menuItems[menuItems.indexOf(e.target)]
@@ -136,7 +148,7 @@ Behaviors.addBehavior(
     },
     handleTabIndexes() {
       let menuItems = this.getMenuItems()
-      menuItems.forEach((element) => {
+      menuItems.forEach(element => {
         if (element.tabIndex === -1) {
           element.tabIndex = 0
         }

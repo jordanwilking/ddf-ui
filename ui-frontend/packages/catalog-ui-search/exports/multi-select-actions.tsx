@@ -14,4 +14,6 @@
  **/
 
 // @ts-nocheck ts-migrate(2307) FIXME: Cannot find module
-export { MultiSelectAction } from '../src/main/webapp/react-component/multi-select-actions/presentation'
+export {
+  MultiSelectAction,
+} from '../src/main/webapp/react-component/multi-select-actions/presentation'

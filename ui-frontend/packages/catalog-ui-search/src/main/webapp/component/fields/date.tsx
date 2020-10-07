@@ -14,49 +14,38 @@
  **/
 import * as React from 'react'
 import { DateInput, IDateInputProps } from '@blueprintjs/datetime'
-
-// @ts-ignore ts-migrate(7016) FIXME: Could not find a declaration file for module '../s... Remove this comment to see the full error message
-import user from '../singletons/user-instance'
-
-export const getTimeZone = () => {
-  return user
-    .get('user')
-    .get('preferences')
-    .get('timeZone') as string
-}
-
-export const getDateFormat = () => {
-  return user
-    .get('user')
-    .get('preferences')
-    .get('dateTimeFormat')['datetimefmt'] as string
-}
-
 // @ts-ignore Can't find type declarations, but they exist
 import moment from 'moment-timezone'
 import { MuiOutlinedInputBorderClasses } from '../theme/theme'
-import { useState } from 'react'
+import useTimeZonedDate, { ACCEPTABLE_DATE_FORMAT } from './useTimeZonedDate'
+
+const user = require('../singletons/user-instance')
 
 /**
- * No need to convert timezone since we are already doing it in parseDate
+ * Date doesn't hold any timezone information,
+ * but has the correct date information at this point.
+ * It does not have the right offset, so we need to add it
  */
 export const formatDate = (date: Date) => {
   const momentDate = moment(date)
-  const format = getDateFormat()
+
+  if (!momentDate.isValid()) {
+    return ''
+  }
+
+  const format = user.getDateFormat()
   const timezone = user.getTimeZone()
   const timezoneOffset = moment(date)
     .tz(timezone)
     .utcOffset()
-  if (!momentDate.isValid()) {
-    return ''
-  }
+
   return momentDate.utcOffset(timezoneOffset, true).format(format)
 }
 
 export const parseDate = (input?: string) => {
   try {
-    const timeZone = getTimeZone()
-    const format = getDateFormat()
+    const timeZone = user.getTimeZone()
+    const format = user.getDateFormat()
     if (!input) {
       return null
     }
@@ -66,13 +55,11 @@ export const parseDate = (input?: string) => {
       timeZone
     )
     if (date.isValid()) {
-      const test = new Date(
+      return new Date(
         moment(input)
           .tz(user.getTimeZone())
-          .format('YYYY/MM/DD HH:mm:ss')
+          .format(ACCEPTABLE_DATE_FORMAT)
       )
-
-      return test
     }
     return null
   } catch (err) {
@@ -96,10 +83,12 @@ const validateShape = ({ value, onChange }: DateFieldProps) => {
 }
 
 export const DateField = ({ value, onChange, BPDateProps }: DateFieldProps) => {
-  const [timeZoneApplied, setTimeZoneApplied] = useState(false)
+  const dateValue = useTimeZonedDate(value)
+
   React.useEffect(() => {
     validateShape({ onChange, value })
   }, [])
+
   return (
     <DateInput
       className={MuiOutlinedInputBorderClasses}
@@ -107,24 +96,14 @@ export const DateField = ({ value, onChange, BPDateProps }: DateFieldProps) => {
       fill
       formatDate={formatDate}
       onChange={(selectedDate, isUserChange) => {
-        if (onChange && selectedDate && isUserChange) {
+        if (onChange && selectedDate && isUserChange)
           onChange(selectedDate.toISOString())
-          setTimeZoneApplied(true)
-        }
       }}
       parseDate={parseDate}
       placeholder={'M/D/YYYY'}
       shortcuts
       timePrecision="minute"
-      value={
-        timeZoneApplied
-          ? new Date(value)
-          : new Date(
-              moment(value)
-                .tz(user.getTimeZone())
-                .format('YYYY/MM/DD HH:mm:ss')
-            )
-      }
+      value={dateValue}
       {...BPDateProps}
     />
   )

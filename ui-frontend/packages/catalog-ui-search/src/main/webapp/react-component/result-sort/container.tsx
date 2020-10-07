@@ -26,7 +26,10 @@ type Props = {
 }
 
 const getResultSort = () => {
-  return user.get('user').get('preferences').get('resultSort')
+  return user
+    .get('user')
+    .get('preferences')
+    .get('resultSort')
 }
 
 const ResultSortContainer = ({ closeDropdown }: Props) => {
@@ -43,8 +46,14 @@ const ResultSortContainer = ({ closeDropdown }: Props) => {
     })
   }, [])
   const removeSort = () => {
-    user.get('user').get('preferences').set('resultSort', undefined)
-    user.get('user').get('preferences').savePreferences()
+    user
+      .get('user')
+      .get('preferences')
+      .set('resultSort', undefined)
+    user
+      .get('user')
+      .get('preferences')
+      .savePreferences()
     closeDropdown()
   }
   const saveSort = () => {
@@ -53,7 +62,10 @@ const ResultSortContainer = ({ closeDropdown }: Props) => {
       .get('user')
       .get('preferences')
       .set('resultSort', sorting.length === 0 ? undefined : sorting)
-    user.get('user').get('preferences').savePreferences()
+    user
+      .get('user')
+      .get('preferences')
+      .savePreferences()
     closeDropdown()
   }
   return (

@@ -41,9 +41,12 @@ const getQueryForId = ({ id }: { id: string }) => {
 const MetacardNavRoute = () => {
   const params = useParams<{ id: string; metacardId: string }>()
   const [id, setId] = React.useState(params.metacardId || params.id)
-  React.useEffect(() => {
-    setId(params.metacardId || params.id)
-  }, [params.metacardId])
+  React.useEffect(
+    () => {
+      setId(params.metacardId || params.id)
+    },
+    [params.metacardId]
+  )
   const [query] = React.useState(getQueryForId({ id }))
   const [selectionInterface] = React.useState(
     new SelectionInterfaceModel({
@@ -51,14 +54,17 @@ const MetacardNavRoute = () => {
     })
   )
 
-  React.useEffect(() => {
-    query.set('filterTree', getCqlForId({ id }))
-    query.cancelCurrentSearches()
-    query.startSearchFromFirstPage()
-    return () => {
+  React.useEffect(
+    () => {
+      query.set('filterTree', getCqlForId({ id }))
       query.cancelCurrentSearches()
-    }
-  }, [id])
+      query.startSearchFromFirstPage()
+      return () => {
+        query.cancelCurrentSearches()
+      }
+    },
+    [id]
+  )
   const lazyResults = useLazyResultsFromSelectionInterface({
     selectionInterface,
   })

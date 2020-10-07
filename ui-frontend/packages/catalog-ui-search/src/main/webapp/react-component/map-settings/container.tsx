@@ -41,7 +41,10 @@ class MapSettings extends React.Component<WithBackboneProps, State> {
   constructor(props: WithBackboneProps) {
     super(props)
     this.state = {
-      selected: user.get('user').get('preferences').get('coordinateFormat'),
+      selected: user
+        .get('user')
+        .get('preferences')
+        .get('coordinateFormat'),
     }
   }
 

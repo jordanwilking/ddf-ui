@@ -29,7 +29,10 @@ module.exports = InputView.extend({
     }
   },
   onAttach() {
-    const width = this.$el.find('.param-label').last().outerWidth()
+    const width = this.$el
+      .find('.param-label')
+      .last()
+      .outerWidth()
     this.$el.find('.text, .param').css('width', `calc(50% - ${width / 2}px)`)
     InputView.prototype.onAttach.call(this)
   },

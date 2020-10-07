@@ -20,41 +20,44 @@ const LazyInspector = ({ selectionInterface }: Props) => {
   const selectedResults = useSelectedResults({
     lazyResults,
   })
-  const backboneModels = Object.values(selectedResults).map((result) => {
+  const backboneModels = Object.values(selectedResults).map(result => {
     return result.getBackbone()
   })
   React.useEffect(() => {
     selectionInterface.setSelectedResults(backboneModels)
   })
 
-  useEffect(() => {
-    let newSelectedIds = new Set(Object.keys(selectedResults))
+  useEffect(
+    () => {
+      let newSelectedIds = new Set(Object.keys(selectedResults))
 
-    let unselectedIds = new Set<string>()
-    if (selectedIds.size > 0) {
-      selectedIds.forEach((id: string) => {
-        if (!newSelectedIds.has(id)) {
-          unselectedIds.add(id)
-        }
-      })
-      if (unselectedIds.size > 0) {
-        postAuditLog({
-          action: 'unselected',
-          component: 'resource',
-          ids: unselectedIds,
+      let unselectedIds = new Set<string>()
+      if (selectedIds.size > 0) {
+        selectedIds.forEach((id: string) => {
+          if (!newSelectedIds.has(id)) {
+            unselectedIds.add(id)
+          }
         })
+        if (unselectedIds.size > 0) {
+          postAuditLog({
+            action: 'unselected',
+            component: 'resource',
+            ids: unselectedIds,
+          })
+        }
       }
-    }
 
-    if (newSelectedIds.size > 0) {
-      postAuditLog({
-        action: 'selected',
-        component: 'resource',
-        ids: newSelectedIds,
-      })
-      selectedIds = newSelectedIds
-    }
-  }, [selectedResults])
+      if (newSelectedIds.size > 0) {
+        postAuditLog({
+          action: 'selected',
+          component: 'resource',
+          ids: newSelectedIds,
+        })
+        selectedIds = newSelectedIds
+      }
+    },
+    [selectedResults]
+  )
 
   return (
     <MRC

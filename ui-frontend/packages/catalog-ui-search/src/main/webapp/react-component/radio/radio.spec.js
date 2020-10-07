@@ -39,12 +39,15 @@ describe('<Radio />', () => {
       </Radio>
     )
     expect(
-      wrapper.find({ selected: true }).find('RadioItem').prop('value')
+      wrapper
+        .find({ selected: true })
+        .find('RadioItem')
+        .prop('value')
     ).to.equal('two')
   })
 
-  it('should select child three', (done) => {
-    const onChange = (value) => {
+  it('should select child three', done => {
+    const onChange = value => {
       expect(value).to.equal('three')
       done()
     }
@@ -57,6 +60,9 @@ describe('<Radio />', () => {
       </Radio>
     )
 
-    wrapper.find({ value: 'three' }).find('RadioItem').prop('onClick')()
+    wrapper
+      .find({ value: 'three' })
+      .find('RadioItem')
+      .prop('onClick')()
   })
 })

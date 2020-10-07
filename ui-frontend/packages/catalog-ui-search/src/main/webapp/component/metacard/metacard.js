@@ -124,7 +124,12 @@ module.exports = new (Backbone.AssociatedModel.extend({
       .reduce((currentAvailable, result) => {
         currentAvailable = _.union(
           currentAvailable,
-          Object.keys(result.get('metacard').get('properties').toJSON())
+          Object.keys(
+            result
+              .get('metacard')
+              .get('properties')
+              .toJSON()
+          )
         )
         return currentAvailable
       }, [])

@@ -29,7 +29,10 @@ module.exports = EditorView.extend({
       options.selectionInterface || this.selectionInterface
     EditorView.prototype.initialize.call(this, options)
     this.listenTo(
-      this.model.first().get('metacard').get('properties'),
+      this.model
+        .first()
+        .get('metacard')
+        .get('properties'),
       'change',
       this.onBeforeShow
     )
@@ -37,7 +40,10 @@ module.exports = EditorView.extend({
   onBeforeShow() {
     this.editorProperties.show(
       PropertyCollectionView.generatePropertyCollectionView([
-        this.model.first().get('metacard>properties').toJSON(),
+        this.model
+          .first()
+          .get('metacard>properties')
+          .toJSON(),
       ])
     )
     this.editorProperties.currentView.$el.addClass('is-list')
@@ -59,7 +65,7 @@ module.exports = EditorView.extend({
           this.model.first().get('metacard').id +
           '/attribute/validation',
         customErrorHandling: true,
-      }).then((response) => {
+      }).then(response => {
         if (!self.isDestroyed && self.editorProperties.currentView) {
           self.editorProperties.currentView.updateValidation(response)
         }
@@ -71,7 +77,12 @@ module.exports = EditorView.extend({
     if (editorJSON.length > 0) {
       const payload = [
         {
-          ids: [this.model.first().get('metacard').get('id')],
+          ids: [
+            this.model
+              .first()
+              .get('metacard')
+              .get('id'),
+          ],
           attributes: editorJSON,
         },
       ]
@@ -84,7 +95,7 @@ module.exports = EditorView.extend({
           data: JSON.stringify(payload),
           contentType: 'application/json',
         })
-          .then((response) => {
+          .then(response => {
             ResultUtils.updateResults(self.model, response)
           })
           .always(() => {

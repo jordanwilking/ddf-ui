@@ -39,7 +39,10 @@ module.exports = Marionette.ItemView.extend({
   initialize() {
     if (this.model.length === 1) {
       this.listenTo(
-        this.model.first().get('metacard').get('properties'),
+        this.model
+          .first()
+          .get('metacard')
+          .get('properties'),
         'change',
         this.handleModelUpdates
       )
@@ -54,7 +57,11 @@ module.exports = Marionette.ItemView.extend({
     let title, icon
     if (this.model.length === 1) {
       icon = IconHelper.getClass(this.model.first())
-      title = this.model.first().get('metacard').get('properties').get('title')
+      title = this.model
+        .first()
+        .get('metacard')
+        .get('properties')
+        .get('title')
     } else {
       title = this.model.length + ' Items'
     }
@@ -65,7 +72,7 @@ module.exports = Marionette.ItemView.extend({
   },
   checkTags() {
     const types = {}
-    this.model.forEach((result) => {
+    this.model.forEach(result => {
       if (result.isResource()) {
         types.resource = true
       } else if (result.isRevision()) {

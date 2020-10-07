@@ -52,7 +52,9 @@ const getAnimationMode = () => {
 }
 
 const getCurrentTheme = (): ThemeType => {
-  return getPreferences().get('theme').toJSON()
+  return getPreferences()
+    .get('theme')
+    .toJSON()
 }
 
 const AnimationSetting = () => {
@@ -70,7 +72,7 @@ const AnimationSetting = () => {
         <Checkbox
           color="default"
           checked={animationMode}
-          onChange={(e) => {
+          onChange={e => {
             getPreferences().set('animation', e.target.checked)
             getPreferences().savePreferences()
           }}
@@ -98,7 +100,7 @@ const ThemeMode = () => {
         <Checkbox
           color="default"
           checked={darkMode}
-          onChange={(e) => {
+          onChange={e => {
             getPreferences()
               .get('theme')
               .set('theme', e.target.checked ? 'dark' : 'light')
@@ -130,7 +132,7 @@ const ThemePalette = () => {
             <Checkbox
               color="default"
               checked={palette}
-              onChange={(e) => {
+              onChange={e => {
                 getPreferences()
                   .get('theme')
                   .set('palette', e.target.checked ? 'custom' : 'default')

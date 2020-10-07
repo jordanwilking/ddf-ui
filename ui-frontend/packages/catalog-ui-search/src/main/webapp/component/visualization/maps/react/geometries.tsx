@@ -36,7 +36,7 @@ const Geometries = (props: Props) => {
       if (id.constructor === String) {
         lazyResultsRef.current.results[id as string].controlSelect()
       } else {
-        ;(id as string[]).map((subid) => {
+        ;(id as string[]).map(subid => {
           return lazyResultsRef.current.results[subid as string].controlSelect()
         })
       }
@@ -47,11 +47,11 @@ const Geometries = (props: Props) => {
       } else {
         const resultIds = id as string[]
         let shouldJustDeselect = resultIds.some(
-          (subid) => lazyResultsRef.current.results[subid].isSelected
+          subid => lazyResultsRef.current.results[subid].isSelected
         )
         lazyResultsRef.current.deselect()
         if (!shouldJustDeselect) {
-          resultIds.map((subid) => {
+          resultIds.map(subid => {
             return lazyResultsRef.current.results[
               subid as string
             ].controlSelect()
@@ -85,42 +85,58 @@ const Geometries = (props: Props) => {
     return () => {}
   }, [])
 
-  const IndividualGeometries = React.useMemo(() => {
-    return Object.values(lazyResults.results).map((lazyResult) => {
+  const IndividualGeometries = React.useMemo(
+    () => {
+      return Object.values(lazyResults.results).map(lazyResult => {
+        return (
+          <Geometry
+            key={lazyResult['metacard.id']}
+            lazyResult={lazyResult}
+            map={map}
+            clusters={clusters}
+          />
+        )
+      })
+    },
+    [lazyResults.results, clusters]
+  )
+
+  const Clusters = React.useMemo(
+    () => {
+      return clusters.map(cluster => {
+        return <Cluster key={cluster.id} cluster={cluster} map={map} />
+      })
+    },
+    [clusters, lazyResults.results]
+  )
+
+  const CalculateClustersMemo = React.useMemo(
+    () => {
       return (
-        <Geometry
-          key={lazyResult['metacard.id']}
-          lazyResult={lazyResult}
+        <CalculateClusters
+          key="clusters"
+          isClustering={isClustering}
           map={map}
-          clusters={clusters}
+          lazyResults={lazyResults.results}
+          setClusters={setClusters}
         />
       )
-    })
-  }, [lazyResults.results, clusters])
+    },
+    [lazyResults.results, isClustering]
+  )
 
-  const Clusters = React.useMemo(() => {
-    return clusters.map((cluster) => {
-      return <Cluster key={cluster.id} cluster={cluster} map={map} />
-    })
-  }, [clusters, lazyResults.results])
-
-  const CalculateClustersMemo = React.useMemo(() => {
-    return (
-      <CalculateClusters
-        key="clusters"
-        isClustering={isClustering}
-        map={map}
-        lazyResults={lazyResults.results}
-        setClusters={setClusters}
-      />
-    )
-  }, [lazyResults.results, isClustering])
-
-  const ZoomToSelectionMemo = React.useMemo(() => {
-    return (
-      <ZoomToSelection map={map} lazyResults={lazyResults} mapView={mapView} />
-    )
-  }, [lazyResults])
+  const ZoomToSelectionMemo = React.useMemo(
+    () => {
+      return (
+        <ZoomToSelection
+          map={map}
+          lazyResults={lazyResults}
+          mapView={mapView}
+        />
+      )
+    },
+    [lazyResults]
+  )
 
   return (
     <>

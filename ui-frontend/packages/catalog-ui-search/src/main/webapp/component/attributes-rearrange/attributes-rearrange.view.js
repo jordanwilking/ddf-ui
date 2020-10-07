@@ -25,13 +25,13 @@ const metacardDefinitions = require('../singletons/metacard-definitions.js')
 function calculateAvailableAttributesFromSelection(selectionInterface) {
   const types = _.union.apply(
     this,
-    selectionInterface.getSelectedResults().map((result) => {
+    selectionInterface.getSelectedResults().map(result => {
       return [result.get('metacardType')]
     })
   )
   const possibleAttributes = _.intersection.apply(
     this,
-    types.map((type) => {
+    types.map(type => {
       return Object.keys(metacardDefinitions.metacardDefinitions[type])
     })
   )
@@ -40,12 +40,17 @@ function calculateAvailableAttributesFromSelection(selectionInterface) {
     .reduce((currentAvailable, result) => {
       currentAvailable = _.union(
         currentAvailable,
-        Object.keys(result.get('metacard').get('properties').toJSON())
+        Object.keys(
+          result
+            .get('metacard')
+            .get('properties')
+            .toJSON()
+        )
       )
       return currentAvailable
     }, [])
-    .filter((attribute) => possibleAttributes.indexOf(attribute) >= 0)
-    .filter((property) => {
+    .filter(attribute => possibleAttributes.indexOf(attribute) >= 0)
+    .filter(property => {
       if (metacardDefinitions.metacardTypes[property]) {
         return !metacardDefinitions.metacardTypes[property].hidden
       } else {
@@ -105,14 +110,17 @@ module.exports = Marionette.ItemView.extend({
       if (usersChoice.length > 0) {
         return calculateAvailableAttributesFromSelection(
           this.options.selectionInterface
-        ).filter((attr) => usersChoice.indexOf(attr) === -1)
+        ).filter(attr => usersChoice.indexOf(attr) === -1)
       } else {
         return calculateAvailableAttributesFromSelection(
           this.options.selectionInterface
-        ).filter((attr) => properties.summaryShow.indexOf(attr) === -1)
+        ).filter(attr => properties.summaryShow.indexOf(attr) === -1)
       }
     } else {
-      return user.get('user').get('preferences').get('inspector-detailsHidden')
+      return user
+        .get('user')
+        .get('preferences')
+        .get('inspector-detailsHidden')
     }
   },
   getPreferredOrder() {
@@ -127,7 +135,10 @@ module.exports = Marionette.ItemView.extend({
         return properties.summaryShow
       }
     } else {
-      return user.get('user').get('preferences').get('inspector-detailsOrder')
+      return user
+        .get('user')
+        .get('preferences')
+        .get('inspector-detailsOrder')
     }
   },
   getNewAttributes() {
@@ -141,7 +152,7 @@ module.exports = Marionette.ItemView.extend({
         .get('preferences')
         .get('inspector-summaryOrder')
       if (usersShown.length > 0 || usersOrder.length > 0) {
-        return usersShown.filter((attr) => usersOrder.indexOf(attr) === -1)
+        return usersShown.filter(attr => usersOrder.indexOf(attr) === -1)
       } else {
         return []
       }
@@ -152,7 +163,7 @@ module.exports = Marionette.ItemView.extend({
         .get('inspector-detailsOrder')
       return calculateAvailableAttributesFromSelection(
         this.options.selectionInterface
-      ).filter((attr) => detailsOrder.indexOf(attr) === -1)
+      ).filter(attr => detailsOrder.indexOf(attr) === -1)
     }
   },
   serializeData() {
@@ -164,7 +175,7 @@ module.exports = Marionette.ItemView.extend({
       this.options.selectionInterface
     )
 
-    return _.union(preferredHeader, newAttributes).map((property) => ({
+    return _.union(preferredHeader, newAttributes).map(property => ({
       label: properties.attributeAliases[property],
       id: property,
       hidden: hidden.indexOf(property) >= 0,
@@ -189,7 +200,7 @@ module.exports = Marionette.ItemView.extend({
       : 'inspector-detailsOrder'
     prefs.set(
       key,
-      _.map(this.$el.find('.column'), (element) =>
+      _.map(this.$el.find('.column'), element =>
         element.getAttribute('data-propertyid')
       )
     )

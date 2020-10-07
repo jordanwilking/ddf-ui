@@ -45,7 +45,10 @@ const setDefaultColumns = (filteredAttributes: any) => {
     const hiddenAttributes = availableAttributes.filter(
       (attr: string) => !defaultTableColumns.includes(attr.toLowerCase())
     )
-    user.get('user').get('preferences').set('columnHide', hiddenAttributes)
+    user
+      .get('user')
+      .get('preferences')
+      .set('columnHide', hiddenAttributes)
   }
 }
 
@@ -77,8 +80,8 @@ export const getVisibleHeaders = (filteredAttributes: any) => {
   prefs.savePreferences()
 
   const headers = preferredHeader
-    .filter((property) => availableAttributes.indexOf(property) !== -1)
-    .map((property) => ({
+    .filter(property => availableAttributes.indexOf(property) !== -1)
+    .map(property => ({
       label: properties.attributeAliases[property],
       id: property,
 
@@ -90,5 +93,5 @@ export const getVisibleHeaders = (filteredAttributes: any) => {
       sortable: sortAttributes.indexOf(property) >= 0,
     }))
 
-  return headers.filter((header) => !header.hidden) as Header[]
+  return headers.filter(header => !header.hidden) as Header[]
 }

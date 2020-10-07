@@ -76,14 +76,17 @@ module.exports = Marionette.CollectionView.extend({
   },
   handleValueForChildView(childView) {
     const values = this.model.get('value')
-    values.forEach((value) => {
+    values.forEach(value => {
       if (childView.$el.attr('data-value') === JSON.stringify(value)) {
         childView.$el.addClass('is-selected')
       }
     })
   },
   handleActive() {
-    this.$el.children('.choice').first().addClass('is-active')
+    this.$el
+      .children('.choice')
+      .first()
+      .addClass('is-active')
   },
   handleMouseEnter(e) {
     this.$el.children('.is-active').removeClass('is-active')
@@ -168,7 +171,7 @@ module.exports = Marionette.CollectionView.extend({
     filterValue = filterValue !== undefined ? filterValue : ''
     if (
       child.get('filterChoice') === true &&
-      this.collection.filter((model) => {
+      this.collection.filter(model => {
         return (
           getAppropriateString(model.get('value')) ===
           getAppropriateString(child.get('value'))
@@ -195,7 +198,7 @@ module.exports = Marionette.CollectionView.extend({
   },
   addValues(values) {
     const currentValues = this.model.get('value').slice()
-    values.forEach((value) => {
+    values.forEach(value => {
       const index = currentValues.indexOf(value)
       if (index === -1) {
         currentValues.push(value)
@@ -207,7 +210,7 @@ module.exports = Marionette.CollectionView.extend({
   },
   removeValues(values) {
     const currentValues = this.model.get('value').slice()
-    values.forEach((value) => {
+    values.forEach(value => {
       const index = currentValues.indexOf(value)
       if (index >= 0) {
         currentValues.splice(index, 1)

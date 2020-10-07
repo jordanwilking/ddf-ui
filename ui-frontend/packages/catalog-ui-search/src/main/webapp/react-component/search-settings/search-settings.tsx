@@ -34,11 +34,14 @@ import Paper from '@material-ui/core/Paper'
 
 const Root = styled.div`
   overflow: hidden;
-  padding: ${(props) => props.theme.minimumSpacing};
+  padding: ${props => props.theme.minimumSpacing};
 `
 
 const getResultCount = () => {
-  return user.get('user').get('preferences').get('resultCount') as number
+  return user
+    .get('user')
+    .get('preferences')
+    .get('resultCount') as number
 }
 
 const SearchSettings = () => {
@@ -54,12 +57,15 @@ const SearchSettings = () => {
   React.useEffect(() => {
     return () => {
       const { sorts, phonetics, spellcheck, sources } = queryModel.toJSON()
-      user.getPreferences().get('querySettings').set({
-        sorts,
-        phonetics,
-        spellcheck,
-        sources,
-      })
+      user
+        .getPreferences()
+        .get('querySettings')
+        .set({
+          sorts,
+          phonetics,
+          spellcheck,
+          sources,
+        })
       user.savePreferences()
     }
   }, [])
@@ -94,7 +100,7 @@ const SearchSettings = () => {
                 fullWidth
                 value={resultCount}
                 margin="dense"
-                onChange={(e) => {
+                onChange={e => {
                   user.getPreferences().set({
                     resultCount: Math.min(
                       parseInt(e.target.value),

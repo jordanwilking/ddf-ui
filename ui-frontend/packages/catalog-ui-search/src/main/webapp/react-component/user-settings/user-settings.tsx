@@ -41,11 +41,13 @@ const ThemeGlobalStyle = createGlobalStyle`
 }
 `
 
-type IndividualSettingsComponentType = ({
-  SettingsComponents,
-}: {
-  SettingsComponents: SettingsComponentType
-}) => JSX.Element
+type IndividualSettingsComponentType = (
+  {
+    SettingsComponents,
+  }: {
+    SettingsComponents: SettingsComponentType
+  }
+) => JSX.Element
 
 export type SettingsComponentType = {
   [key: string]: {
@@ -101,8 +103,8 @@ const SettingsScreen = ({
   return (
     <Grid container direction="column" className="w-full h-full">
       {Object.keys(SettingsComponents)
-        .filter((name) => name !== 'Settings')
-        .map((name) => {
+        .filter(name => name !== 'Settings')
+        .map(name => {
           return (
             <Grid item className="w-full">
               <Button
@@ -129,7 +131,7 @@ const getName = ({
   CurrentSetting: IndividualSettingsComponentType
   SettingsComponents: SettingsComponentType
 }) => {
-  const matchedSetting = Object.entries(SettingsComponents).find((entry) => {
+  const matchedSetting = Object.entries(SettingsComponents).find(entry => {
     return entry[1].component === CurrentSetting
   })
   if (matchedSetting) {
@@ -145,7 +147,7 @@ const getComponent = ({
   name: string
   SettingsComponents: SettingsComponentType
 }) => {
-  const matchedSetting = Object.entries(SettingsComponents).find((entry) => {
+  const matchedSetting = Object.entries(SettingsComponents).find(entry => {
     return entry[0] === name
   })
   if (matchedSetting) {
