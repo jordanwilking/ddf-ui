@@ -17,6 +17,7 @@ import { DateRangeInput, IDateRangeInputProps } from '@blueprintjs/datetime'
 import { formatDate, parseDate } from './date'
 import { ValueTypes } from '../filter-builder/filter.structure'
 import { MuiOutlinedInputBorderClasses } from '../theme/theme'
+import useTimeZonedDate from './useTimeZonedDate'
 
 type Props = {
   value: ValueTypes['during']
@@ -45,9 +46,13 @@ export const DateRangeField = ({
   onChange,
   BPDateRangeProps,
 }: Props) => {
+  const startDateValue = useTimeZonedDate(value.start)
+  const endDateValue = useTimeZonedDate(value.end)
+
   React.useEffect(() => {
     validateShape({ value, onChange, BPDateRangeProps })
   }, [])
+
   return (
     <DateRangeInput
       allowSingleDayRange
@@ -73,11 +78,7 @@ export const DateRangeField = ({
       parseDate={parseDate}
       shortcuts
       timePrecision="minute"
-      {...(value
-        ? {
-            value: [new Date(value.start), new Date(value.end)],
-          }
-        : {})}
+      value={[startDateValue, endDateValue]}
       {...BPDateRangeProps}
     />
   )

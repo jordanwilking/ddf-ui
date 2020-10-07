@@ -7,7 +7,7 @@ export const ACCEPTABLE_DATE_FORMAT = 'YYYY/MM/DD HH:mm:ss'
 
 const useTimeZonedDate = (value: string) => {
   const [timeZoneApplied, setTimeZoneApplied] = useState(false)
-  const [dateValue, setDateValue] = useState<Date>()
+  const [dateValue, setDateValue] = useState<Date>(new Date(value))
 
   React.useEffect(() => {
     if (value) {
