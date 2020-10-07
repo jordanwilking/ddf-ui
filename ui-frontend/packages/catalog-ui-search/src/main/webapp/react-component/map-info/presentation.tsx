@@ -30,16 +30,16 @@ type Props = {
 
 const Root = styled.div<Props>`
   font-family: 'Inconsolata', 'Lucida Console', monospace;
-  background: ${props => props.theme.backgroundModal};
+  background: ${(props) => props.theme.backgroundModal};
   display: block;
   width: auto;
   height: auto;
-  font-size: ${props => props.theme.minimumFontSize};
+  font-size: ${(props) => props.theme.minimumFontSize};
   position: absolute;
   left: 0px;
   bottom: 0px;
   text-align: left;
-  padding: ${props => props.theme.minimumSpacing};
+  padding: ${(props) => props.theme.minimumSpacing};
   max-width: 50%;
 `
 const CoordinateInfo = styled.div`

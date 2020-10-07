@@ -35,9 +35,7 @@ export const formatDate = (date: Date) => {
 
   const format = user.getDateFormat()
   const timezone = user.getTimeZone()
-  const timezoneOffset = moment(date)
-    .tz(timezone)
-    .utcOffset()
+  const timezoneOffset = moment(date).tz(timezone).utcOffset()
 
   return momentDate.utcOffset(timezoneOffset, true).format(format)
 }
@@ -56,9 +54,7 @@ export const parseDate = (input?: string) => {
     )
     if (date.isValid()) {
       return new Date(
-        moment(input)
-          .tz(user.getTimeZone())
-          .format(ACCEPTABLE_DATE_FORMAT)
+        moment(input).tz(user.getTimeZone()).format(ACCEPTABLE_DATE_FORMAT)
       )
     }
     return null

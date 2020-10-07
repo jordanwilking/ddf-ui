@@ -9,25 +9,20 @@ const useTimeZonedDate = (value: string) => {
   const [timeZoneApplied, setTimeZoneApplied] = useState(false)
   const [dateValue, setDateValue] = useState<Date>()
 
-  React.useEffect(
-    () => {
-      if (value) {
-        if (timeZoneApplied) {
-          setDateValue(new Date(value))
-        } else {
-          setDateValue(
-            new Date(
-              moment(value)
-                .tz(user.getTimeZone())
-                .format(ACCEPTABLE_DATE_FORMAT)
-            )
+  React.useEffect(() => {
+    if (value) {
+      if (timeZoneApplied) {
+        setDateValue(new Date(value))
+      } else {
+        setDateValue(
+          new Date(
+            moment(value).tz(user.getTimeZone()).format(ACCEPTABLE_DATE_FORMAT)
           )
-          setTimeZoneApplied(true)
-        }
+        )
+        setTimeZoneApplied(true)
       }
-    },
-    [value]
-  )
+    }
+  }, [value])
 
   return dateValue
 }
