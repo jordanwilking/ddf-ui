@@ -37,22 +37,22 @@ require('backbone-associations')
 
 const User = {}
 
-User.updateMapLayers = function (layers) {
+User.updateMapLayers = function(layers) {
   const providers = properties.imageryProviders
   const exclude = ['id', 'label', 'alpha', 'show', 'order']
   const equal = (a, b) => _.isEqual(_.omit(a, exclude), _.omit(b, exclude))
 
-  const layersToRemove = layers.filter((model) => {
-    const found = providers.some((provider) => equal(provider, model.toJSON()))
+  const layersToRemove = layers.filter(model => {
+    const found = providers.some(provider => equal(provider, model.toJSON()))
     return !found && !model.get('userRemovable')
   })
 
   layers.remove(layersToRemove)
 
-  providers.forEach((provider) => {
+  providers.forEach(provider => {
     const found = layers
       .toArray()
-      .some((model) => equal(provider, model.toJSON()))
+      .some(model => equal(provider, model.toJSON()))
 
     if (!found) {
       layers.add(new User.MapLayer(provider, { parse: true }))
@@ -93,7 +93,7 @@ User.MapLayers = Backbone.Collection.extend({
   defaults() {
     return _.map(
       _.values(properties.imageryProviders),
-      (layerConfig) => new User.MapLayer(layerConfig, { parse: true })
+      layerConfig => new User.MapLayer(layerConfig, { parse: true })
     )
   },
   initialize(models) {
@@ -234,14 +234,12 @@ User.Preferences = Backbone.AssociatedModel.extend({
     this.savePreferences()
   },
   getOauthNotificationIds() {
-    return this.get('oauth').models.map(function (notification) {
+    return this.get('oauth').models.map(function(notification) {
       return notification.attributes.sourceId
     })
   },
   getOauthNotification(sourceId) {
-    let notifications = this.get('oauth').models.filter(function (
-      notification
-    ) {
+    let notifications = this.get('oauth').models.filter(function(notification) {
       return notification.attributes.sourceId === sourceId
     })
 
@@ -298,7 +296,7 @@ User.Preferences = Backbone.AssociatedModel.extend({
     }
   },
   removeExpiredAlerts(expiration) {
-    const expiredAlerts = this.get('alerts').filter((alert) => {
+    const expiredAlerts = this.get('alerts').filter(alert => {
       const recievedAt = alert.getTimeComparator()
       return Date.now() - recievedAt > expiration
     })
@@ -315,14 +313,14 @@ User.Preferences = Backbone.AssociatedModel.extend({
     })
   },
   removeExpiredUploads(expiration) {
-    const expiredUploads = this.get('uploads').filter((upload) => {
+    const expiredUploads = this.get('uploads').filter(upload => {
       const recievedAt = upload.getTimeComparator()
       return Date.now() - recievedAt > expiration
     })
     this.get('uploads').remove(expiredUploads)
   },
   removeExpiredOauth(expiration) {
-    const expiredOauth = this.get('oauth').filter((oauth) => {
+    const expiredOauth = this.get('oauth').filter(oauth => {
       const recievedAt = oauth.getTimeComparator()
       return Date.now() - recievedAt > expiration
     })
@@ -410,8 +408,12 @@ User.Response = Backbone.AssociatedModel.extend({
   },
   handleSync() {
     this.fetched = true
-    this.get('user').get('preferences').handleAlertPersistence()
-    this.get('user').get('preferences').handleResultCount()
+    this.get('user')
+      .get('preferences')
+      .handleAlertPersistence()
+    this.get('user')
+      .get('preferences')
+      .handleResultCount()
   },
   getGuestPreferences() {
     try {
@@ -446,10 +448,27 @@ User.Response = Backbone.AssociatedModel.extend({
   },
   getUserReadableDateTime(date) {
     return moment
-      .tz(date, this.get('user').get('preferences').get('timeZone'))
-      .format(
-        this.get('user').get('preferences').get('dateTimeFormat')['datetimefmt']
+      .tz(
+        date,
+        this.get('user')
+          .get('preferences')
+          .get('timeZone')
       )
+      .format(
+        this.get('user')
+          .get('preferences')
+          .get('dateTimeFormat')['datetimefmt']
+      )
+  },
+  getTimeZone() {
+    return this.get('user')
+      .get('preferences')
+      .get('timeZone')
+  },
+  getDateFormat() {
+    return this.get('user')
+      .get('preferences')
+      .get('dateTimeFormat')['datetimefmt']
   },
   getHoverPreview() {
     return this.get('user').getHoverPreview()
@@ -491,7 +510,7 @@ User.Response = Backbone.AssociatedModel.extend({
       case 'query-result.collection':
       default:
         if (thing.some !== undefined) {
-          !thing.some((subthing) => {
+          !thing.some(subthing => {
             return !this.canWrite(subthing)
           })
         } else {
