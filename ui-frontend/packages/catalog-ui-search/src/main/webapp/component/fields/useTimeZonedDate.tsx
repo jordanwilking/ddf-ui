@@ -10,7 +10,7 @@ const useTimeZonedDate = (value: string) => {
   const [dateValue, setDateValue] = useState<Date>(new Date(value))
 
   React.useEffect(() => {
-    if (value) {
+    if (typeof value === 'string') {
       if (timeZoneApplied) {
         setDateValue(new Date(value))
       } else {

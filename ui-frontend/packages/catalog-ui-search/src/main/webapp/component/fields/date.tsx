@@ -34,10 +34,14 @@ export const formatDate = (date: Date) => {
   }
 
   const format = user.getDateFormat()
-  const timezone = user.getTimeZone()
-  const timezoneOffset = moment(date).tz(timezone).utcOffset()
+  const timezoneOffset = getTimeZoneOffset(date)
 
   return momentDate.utcOffset(timezoneOffset, true).format(format)
+}
+
+export const getTimeZoneOffset = (date: Date) => {
+  const timezone = user.getTimeZone()
+  return moment(date).tz(timezone).utcOffset()
 }
 
 export const parseDate = (input?: string) => {
@@ -92,8 +96,13 @@ export const DateField = ({ value, onChange, BPDateProps }: DateFieldProps) => {
       fill
       formatDate={formatDate}
       onChange={(selectedDate, isUserChange) => {
-        if (onChange && selectedDate && isUserChange)
-          onChange(selectedDate.toISOString())
+        if (onChange && selectedDate && isUserChange) {
+          const timeZoneAdjustedDate = moment(selectedDate).utcOffset(
+            getTimeZoneOffset(selectedDate),
+            true
+          )
+          onChange(timeZoneAdjustedDate.toISOString())
+        }
       }}
       parseDate={parseDate}
       placeholder={'M/D/YYYY'}
