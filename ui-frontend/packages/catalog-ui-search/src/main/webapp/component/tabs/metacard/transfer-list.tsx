@@ -32,7 +32,7 @@ import {
   Paper,
   DialogProps,
 } from '@material-ui/core'
-import { useDialog } from '@connexta/atlas/atoms/dialog'
+import { useDialog } from '../../dialog'
 import TypedMetacardDefs from './metacardDefinitions'
 import EditIcon from '@material-ui/icons/Edit'
 import { Editor } from './summary'
