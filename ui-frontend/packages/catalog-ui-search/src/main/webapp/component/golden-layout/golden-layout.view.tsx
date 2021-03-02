@@ -19,8 +19,6 @@ const _merge = require('lodash/merge')
 const _debounce = require('lodash/debounce')
 const $ = require('jquery')
 const wreqr = require('../../js/wreqr.js')
-// @ts-ignore ts-migrate(6133) FIXME: 'template' is declared but its value is never read... Remove this comment to see the full error message
-const template = require('./golden-layout.hbs')
 const Marionette = require('marionette')
 const CustomElements = require('../../js/CustomElements.js')
 const GoldenLayout = require('golden-layout')
@@ -35,6 +33,8 @@ import MinimizeIcon from '@material-ui/icons/Minimize'
 import CloseIcon from '@material-ui/icons/Close'
 import { providers as Providers } from '../../extension-points/providers'
 import { Visualizations } from '../visualization/visualizations'
+
+const COMPONENTS_TO_RERENDER_ON_SHOW = ['results']
 
 // @ts-ignore ts-migrate(7024) FIXME: Function implicitly has return type 'any' because ... Remove this comment to see the full error message
 const treeMap = (obj: any, fn: any, path = []) => {
@@ -111,9 +111,11 @@ function registerComponent(
   marionetteView.goldenLayout.registerComponent(
     name,
     (container: any, componentState: any) => {
+      let componentView: any
       container.on('open', () => {
         setTimeout(() => {
-          const componentView = new ComponentView(
+          console.log('component open')
+          componentView = new ComponentView(
             _.extend({}, options, componentState, {
               container,
             })
@@ -130,6 +132,14 @@ function registerComponent(
           container.parent.parent.element.addClass('is-minimized')
         } else {
           container.parent.parent.element.removeClass('is-minimized')
+        }
+      })
+      container.on('show', () => {
+        if (
+          componentView &&
+          COMPONENTS_TO_RERENDER_ON_SHOW.includes(componentState?.componentName)
+        ) {
+          componentView.render()
         }
       })
       container.on('tab', (tab: any) => {
@@ -166,18 +176,6 @@ function registerComponent(
                       />
                     ) : null}
                   </Grid>
-                  {/* <Grid item>
-                    <Button
-                      onClick={e => {
-                        tab.contentItem.container.setSize(
-                          10,
-                          tab.contentItem.container.height
-                        )
-                      }}
-                    >
-                      -
-                    </Button>
-                  </Grid> */}
                   <Grid item>
                     {tab.closeElement[0].style.display !== 'none' ? (
                       <Button
@@ -373,8 +371,6 @@ export default Marionette.LayoutView.extend({
         }
         stack.remove()
       })
-    // const root = document.createElement('div')
-    // tab.element.append(root)
     let intervalId = setInterval(() => {
       try {
         ReactDOM.render(
@@ -383,8 +379,7 @@ export default Marionette.LayoutView.extend({
               <Grid item>
                 <Button
                   data-id="maximise-tab-button"
-                  // @ts-ignore ts-migrate(6133) FIXME: 'e' is declared but its value is never read.
-                  onClick={(e) => {
+                  onClick={(_e) => {
                     const prevWidth = stack.config.prevWidth || 500
                     const prevHeight = stack.config.prevHeight || 500
                     stack.contentItems[0].container.setSize(
@@ -399,8 +394,7 @@ export default Marionette.LayoutView.extend({
               <Grid item>
                 <Button
                   data-id="minimise-layout-button"
-                  // @ts-ignore ts-migrate(6133) FIXME: 'e' is declared but its value is never read.
-                  onClick={(e) => {
+                  onClick={(_e) => {
                     stack.config.prevWidth = stack.getActiveContentItem().container.width
                     stack.config.prevHeight = stack.getActiveContentItem().container.height
                     stack.contentItems[0].container.setSize(10, 45)
@@ -412,8 +406,7 @@ export default Marionette.LayoutView.extend({
               <Grid item>
                 <Button
                   data-id="maximise-layout-button"
-                  // @ts-ignore ts-migrate(6133) FIXME: 'e' is declared but its value is never read.
-                  onClick={(e) => {
+                  onClick={(_e) => {
                     stack.toggleMaximise()
                   }}
                 >
@@ -424,8 +417,7 @@ export default Marionette.LayoutView.extend({
                 {stack.header._isClosable() ? (
                   <Button
                     data-id="close-layout-button"
-                    // @ts-ignore ts-migrate(6133) FIXME: 'e' is declared but its value is never read.
-                    onClick={(e) => {
+                    onClick={(_e) => {
                       if (stack.isMaximised) {
                         stack.toggleMaximise()
                       }
@@ -444,8 +436,7 @@ export default Marionette.LayoutView.extend({
       } catch (err) {}
     }, 100)
   },
-  // @ts-ignore ts-migrate(6133) FIXME: 'event' is declared but its value is never read.
-  handleGoldenLayoutStateChange(event: any) {
+  handleGoldenLayoutStateChange(_event: any) {
     if (this.isDestroyed) {
       return
     }
@@ -516,8 +507,7 @@ export default Marionette.LayoutView.extend({
     $(window).on(
       'resize.' + this.cid,
       _debounce(
-        // @ts-ignore ts-migrate(6133) FIXME: 'event' is declared but its value is never read.
-        (event: any) => {
+        (_event: any) => {
           this.updateSize()
         },
         100,

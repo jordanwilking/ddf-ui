@@ -116,9 +116,6 @@ const RowComponent = ({
     )
   }, [])
   const imgsrc = Common.getImageSrc(thumbnail)
-  React.useEffect(() => {
-    measure()
-  }, [shownAttributes, convertToFormat])
 
   const getDisplayValue = (value: any, property: string) => {
     if (value && metacardDefinitions.metacardTypes[property]) {

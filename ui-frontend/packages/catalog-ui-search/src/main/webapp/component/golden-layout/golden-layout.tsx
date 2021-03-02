@@ -12,8 +12,7 @@ type Props = {
 }
 
 export const GoldenLayout = ({ selectionInterface }: Props) => {
-  // @ts-ignore ts-migrate(6133) FIXME: 'setGoldenlayoutInstance' is declared but its valu... Remove this comment to see the full error message
-  const [goldenlayoutInstance, setGoldenlayoutInstance] = React.useState(
+  const [goldenlayoutInstance] = React.useState(
     new GoldenLayoutView({
       selectionInterface,
       configName: 'goldenLayout',

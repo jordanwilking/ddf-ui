@@ -381,10 +381,6 @@ export const ResultItem = ({ lazyResult, measure }: ResultItemFullProps) => {
     )
   }, [])
 
-  React.useEffect(() => {
-    measure()
-  }, [shownAttributes, convertToFormat])
-
   const thumbnail = lazyResult.plain.metacard.properties.thumbnail
   const imgsrc = Common.getImageSrc(thumbnail)
 
